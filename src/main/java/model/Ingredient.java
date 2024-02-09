@@ -20,11 +20,36 @@ public class Ingredient {
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
 
-    @Column(name = "quantity")
-    private Integer quantity;
+    @Column(name = "unit")
+    private Integer unit;
 
     private Ingredient() {}
 
+    public Ingredient(String name, String category, LocalDate expirationDate, Integer unit) {
+        this.name = name;
+        this.category = category;
+        this.expirationDate = expirationDate;
+        this.unit = unit;
+    }
 
+    public Integer getId() {
+        return this.id;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getCategory() {
+        return this.category;
+    }
+
+    public LocalDate getExpirationDate() {
+        return this.expirationDate;
+    }
+
+    public Integer getUnit() {
+        return this.unit;
+    }
 
 }
