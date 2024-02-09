@@ -1,6 +1,9 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
@@ -14,22 +17,28 @@ public class Ingredient {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "category")
-    private String category;
 
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
 
+
     @Column(name = "unit")
     private Integer unit;
 
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "category_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private String category;
+
     private Ingredient() {}
 
-    public Ingredient(String name, String category, LocalDate expirationDate, Integer unit) {
+    public Ingredient(String name, LocalDate expirationDate, Integer unit, String category) {
         this.name = name;
-        this.category = category;
         this.expirationDate = expirationDate;
         this.unit = unit;
+        this.category = category;
     }
 
     public Integer getId() {
@@ -40,9 +49,6 @@ public class Ingredient {
         return this.name;
     }
 
-    public String getCategory() {
-        return this.category;
-    }
 
     public LocalDate getExpirationDate() {
         return this.expirationDate;
@@ -52,4 +58,7 @@ public class Ingredient {
         return this.unit;
     }
 
+    public String getCategory() {
+        return this.category;
+    }
 }

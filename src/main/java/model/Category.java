@@ -14,14 +14,11 @@ public class Category {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "items")
-    private String[] items;
 
     private Category() {}
 
-    public Category(String name, String[] items) {
+    public Category(String name) {
         this.name = name;
-        this.items = items;
     }
 
     public Integer getId() {
@@ -30,9 +27,5 @@ public class Category {
 
     public String getName() {
         return this.name;
-    }
-
-    public String[] getItems() {
-        return this.items;
     }
 }
