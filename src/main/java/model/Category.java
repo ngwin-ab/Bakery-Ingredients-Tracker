@@ -2,8 +2,6 @@ package model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
-
 @Entity
 @Table(name = "categories")
 public class Category {
