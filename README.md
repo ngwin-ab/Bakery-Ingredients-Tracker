@@ -1,4 +1,4 @@
-# Bakery Ingredients Tracking App
+# Bakery Ingredients Tracker
 ## Overview
 The Bakery Ingredients Tracking app is designed to streamline inventory management for bakery businesses, ensuring smooth operations and high product quality. This app offers features to track ingredient stock levels and manage expiry dates effectively.
 
