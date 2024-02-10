@@ -1,2 +1,4 @@
-package controller;public class IngredientController {
+package controller;
+
+public class IngredientController {
 }
