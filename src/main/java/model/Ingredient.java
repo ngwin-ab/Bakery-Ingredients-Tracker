@@ -19,7 +19,7 @@ public class Ingredient {
 
 
     @Column(name = "expiration_date")
-    private LocalDate expirationDate;
+    private LocalDate[] expirationDate;
 
 
     @Column(name = "unit")
@@ -34,7 +34,7 @@ public class Ingredient {
 
     private Ingredient() {}
 
-    public Ingredient(String name, LocalDate expirationDate, Integer unit, String category) {
+    public Ingredient(String name, LocalDate[] expirationDate, Integer unit, String category) {
         this.name = name;
         this.expirationDate = expirationDate;
         this.unit = unit;
@@ -50,7 +50,7 @@ public class Ingredient {
     }
 
 
-    public LocalDate getExpirationDate() {
+    public LocalDate[] getExpirationDate() {
         return this.expirationDate;
     }
 
