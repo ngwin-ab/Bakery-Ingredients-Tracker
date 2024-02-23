@@ -1,5 +1,6 @@
 package controller;
 
+import model.Category;
 import model.Ingredient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,22 +11,25 @@ import repository.IngredientRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@RequestMapping("/api")
 public class IngredientController {
+    private final CategoryRepository categoryRepository;
+
+    private final IngredientRepository ingredientRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
-    private IngredientRepository ingredientRepository;
+    public IngredientController(CategoryRepository categoryRepository, IngredientRepository ingredientRepository) {
+        this.categoryRepository = categoryRepository;
+        this.ingredientRepository = ingredientRepository;
+    }
 
     @GetMapping("/categories/{categoryId}/ingredients")
-    public ResponseEntity<List<Ingredient>> getAllIngredientsByCategoryId(@PathVariable(value = "categoryId") Integer categoryId) {
+    public ResponseEntity<List<Ingredient>> getAllIngredientsByCategoryId(@PathVariable(value = "categoryId") Long categoryId) {
         if (!categoryRepository.existsById(categoryId)) {
-            throw new NoSuchElementException("Not found Category with id = " + categoryId);
+            throw new NoSuchElementException("Category with id = " + categoryId + " not found!");
         }
 
         List<Ingredient> ingredients = ingredientRepository.findByCategoryId(categoryId);
@@ -33,18 +37,21 @@ public class IngredientController {
     }
 
     @GetMapping("/ingredients/{id}")
-    public ResponseEntity<Ingredient> getIngredientById(@PathVariable(value = "id") Integer id) {
-        Ingredient ingredient = ingredientRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Not found Comment with id = " + id));
+    public ResponseEntity<Ingredient> getIngredientById(@PathVariable(value = "id") long id) {
+        Optional<Ingredient> ingredientData = ingredientRepository.findById(id);
 
-        return new ResponseEntity<>(ingredient, HttpStatus.OK);
+        if (ingredientData.isPresent()) {
+            return new ResponseEntity<>(ingredientData.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/categories/{categoryId}/ingredients")
-    public ResponseEntity<Ingredient> createIngredient(@PathVariable(value = "categoryId") Integer categoryId,
-                                                 @RequestBody Ingredient ingredientRequest) {
+    public ResponseEntity<Ingredient> createIngredient(@PathVariable(value = "categoryId") Long categoryId,
+                                                       @RequestBody Ingredient ingredientRequest) {
         Ingredient ingredient = categoryRepository.findById(categoryId).map(category -> {
-            ingredientRequest.setCategory(category.getName());
+            ingredientRequest.setCategory(category);
             return ingredientRepository.save(ingredientRequest);
         }).orElseThrow(() -> new NoSuchElementException("Not found Category with id = " + categoryId));
 
@@ -52,14 +59,14 @@ public class IngredientController {
     }
 
     @DeleteMapping("/ingredients/{id}")
-    public ResponseEntity<HttpStatus> deleteComment(@PathVariable("id") Integer id) {
+    public ResponseEntity<HttpStatus> deleteComment(@PathVariable("id") long id) {
         ingredientRepository.deleteById(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/categories/{categoryId}/ingredients")
-    public ResponseEntity<List<Ingredient>> deleteAllIngredientssOfCategory(@PathVariable(value = "categoryId") Integer categoryId) {
+    public ResponseEntity<List<Ingredient>> deleteAllIngredientssOfCategory(@PathVariable(value = "categoryId") Long categoryId) {
         if (!categoryRepository.existsById(categoryId)) {
             throw new NoSuchElementException("Not found Category with id = " + categoryId);
         }

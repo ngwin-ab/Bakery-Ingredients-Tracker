@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -30,39 +30,37 @@ public class Ingredient {
     @JoinColumn(name = "category_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private String category;
+    private Category category;
 
-    private Ingredient() {}
-
-    public Ingredient(String name, LocalDate[] expirationDate, Integer unit, String category) {
+    public Ingredient(String name, LocalDate[] expirationDate, Integer unit, Category category) {
         this.name = name;
         this.expirationDate = expirationDate;
         this.unit = unit;
         this.category = category;
     }
 
-    public Integer getId() {
-        return this.id;
+    public long getId() {
+        return id;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
 
     public LocalDate[] getExpirationDate() {
-        return this.expirationDate;
+        return expirationDate;
     }
 
     public Integer getUnit() {
-        return this.unit;
+        return unit;
     }
 
-    public String getCategory() {
-        return this.category;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategory(String category)
+    public void setCategory(Category category)
     {
         this.category = category;
     }
