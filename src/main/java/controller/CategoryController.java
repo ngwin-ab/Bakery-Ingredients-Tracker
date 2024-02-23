@@ -16,9 +16,12 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class CategoryController {
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    CategoryRepository categoryRepository;
+    public CategoryController(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     @GetMapping("/categories")
     public ResponseEntity<List<Category>> getAllCategories(@RequestParam(required = false) String name) {
