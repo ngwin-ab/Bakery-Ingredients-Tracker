@@ -7,23 +7,29 @@ import jakarta.persistence.*;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private long id;
 
     @Column(name = "name")
     private String name;
-
-
-    private Category() {}
 
     public Category(String name) {
         this.name = name;
     }
 
-    public Integer getId() {
-        return this.id;
+    public long getId() {
+        return id;
     }
 
     public String getName() {
-        return this.name;
+        return name;
+    }
+
+    public void setName() {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Category [id=" + id + ", name=" + name + "]";
     }
 }
