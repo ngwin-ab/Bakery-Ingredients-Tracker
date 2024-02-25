@@ -1,7 +1,7 @@
-package controller;
+package com.anba.bakery.controller;
 
-import model.Category;
-import repository.CategoryRepository;
+import com.anba.bakery.model.Category;
+import com.anba.bakery.repository.CategoryRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,20 +10,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class CategoryController {
-    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public CategoryController(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
+    CategoryRepository categoryRepository;
 
-    @GetMapping("/categories")
+    @RequestMapping(value = "/categories", method = RequestMethod.GET)
     public ResponseEntity<List<Category>> getAllCategories(@RequestParam(required = false) String name) {
         try {
             List<Category> categories = new ArrayList<Category>();

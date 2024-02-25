@@ -1,19 +1,17 @@
-package controller;
+package com.anba.bakery.controller;
 
-import model.Category;
-import model.Ingredient;
+import com.anba.bakery.model.Ingredient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import repository.CategoryRepository;
-import repository.IngredientRepository;
+import com.anba.bakery.repository.CategoryRepository;
+import com.anba.bakery.repository.IngredientRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class IngredientController {
     private final CategoryRepository categoryRepository;

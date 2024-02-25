@@ -1,7 +1,7 @@
-package repository;
+package com.anba.bakery.repository;
 
-import jakarta.transaction.Transactional;
-import model.Ingredient;
+import javax.transaction.Transactional;
+import com.anba.bakery.model.Ingredient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 

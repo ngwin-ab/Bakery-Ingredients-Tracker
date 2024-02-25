@@ -1,6 +1,6 @@
-package repository;
+package com.anba.bakery.repository;
 
-import model.Category;
+import com.anba.bakery.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 

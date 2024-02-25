@@ -1,6 +1,6 @@
-package model;
+package com.anba.bakery.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "categories")
