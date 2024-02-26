@@ -15,8 +15,12 @@ import java.util.Optional;
 @RestController
 public class CategoryController {
 
+    private final CategoryRepository categoryRepository;
+
     @Autowired
-    CategoryRepository categoryRepository;
+    public CategoryController(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
     public ResponseEntity<List<Category>> getAllCategories(@RequestParam(required = false) String name) {
@@ -50,7 +54,7 @@ public class CategoryController {
     @PostMapping("/categories")
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
         try {
-            Category newCategory = categoryRepository.save(new Category(category.getName()));
+            Category newCategory = categoryRepository.save(category);
             return new ResponseEntity<>(newCategory, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -62,9 +66,7 @@ public class CategoryController {
         Optional<Category> categoryData = categoryRepository.findById(id);
 
         if (categoryData.isPresent()) {
-            Category _category = categoryData.get();
-            _category.setName(category.getName());
-            return new ResponseEntity<>(categoryRepository.save(_category), HttpStatus.OK);
+            return new ResponseEntity<>(categoryRepository.save(category), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
