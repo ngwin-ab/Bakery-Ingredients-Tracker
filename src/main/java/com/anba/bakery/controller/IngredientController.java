@@ -56,6 +56,18 @@ public class IngredientController {
         return new ResponseEntity<>(ingredient, HttpStatus.CREATED);
     }
 
+    @PutMapping("/ingredients/{id}")
+    public ResponseEntity<Ingredient> updateIngredient(@PathVariable("id") long id, @RequestBody Ingredient ingredientRequest) {
+        Ingredient ingredient = ingredientRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Ingredient " + id + "not found"));
+
+        ingredient.setUnit(ingredientRequest.getUnit());
+        ingredient.setName(ingredientRequest.getName());
+        ingredient.setExpirationDate(ingredientRequest.getExpirationDate());
+
+        return new ResponseEntity<>(ingredientRepository.save(ingredient), HttpStatus.OK);
+    }
+
     @DeleteMapping("/ingredients/{id}")
     public ResponseEntity<HttpStatus> deleteComment(@PathVariable("id") long id) {
         ingredientRepository.deleteById(id);
